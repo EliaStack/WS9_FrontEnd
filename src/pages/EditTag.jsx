@@ -16,14 +16,10 @@ function EditTask() {
     const [projectId, setProjectId] = useState(tag?.project._id || '');
     const projectTitle = tag.project.title;
 
-
-    console.log('statetag: ', tag);
-
     useEffect(() => {
 
         get('/api/tags/' + id)
             .then(response => {
-                console.log('Réponse brute API :', response);
                 setName(response.data.name);
                 setProjectId(response.data.project);
                 if (!projectId) {
@@ -51,24 +47,24 @@ function EditTask() {
     return (
         <div className="max-w-2xl mx-auto px-4 py-6 md:px-0">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h2 className="bg-blue-600 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">Modifier le tag : {name} </h2>
+                <h2 className="bg-blue-700 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">Modifier le tag : {name} </h2>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Titre du tag :</label>
-                    <input placeholder="Titre" value={name} onChange={(e) => setName(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" />
+                    <label for="titre" className="text-sm font-semibold text-gray-700">Titre du tag :</label>
+                    <input placeholder="Titre" value={name} onChange={(e) => setName(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="titre"/>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Projet :</label>
-                    <input readOnly value={projectTitle} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" />
+                    <label for="project" className="text-sm font-semibold text-gray-700">Projet :</label>
+                    <input readOnly value={projectTitle} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" id="project"/>
                 </div>
 
-                <button className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Modifier</button>
+                <button className="bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Modifier</button>
             </form>
             <div className="flex justify-center mt-4">
                 <Link
                     to="/projects"
-                    className="bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition shadow-sm w-full sm:w-auto text-center"
+                    className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition shadow-sm w-full sm:w-auto text-center"
                 >
                     ← Retour aux projets
                 </Link>

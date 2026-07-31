@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Project from "../components/Project";
 import { get } from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import UserProfil from "../components/UserProfil";
 
 function Projects() {
     const { token } = useAuth();
@@ -32,6 +33,9 @@ function Projects() {
 
     return (
         <div>
+            <div>
+                <UserProfil></UserProfil>
+            </div>
             <div>
                 <h2>Mes projets</h2>
                 <Link className="inline-block mb-4 text-blue-600 underline" to="/createProject" state={{

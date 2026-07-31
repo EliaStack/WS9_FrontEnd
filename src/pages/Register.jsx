@@ -15,17 +15,19 @@ function Register() {
             return;
 
         //Appel API
-        await post ('register', { email, password }) //Mettre url de l'api et les données à soumettres
+        await post('register', { email, password }) //Mettre url de l'api et les données à soumettres
         navigate('/login') //Redirection vers la page login
-        console.log({ email, password });
     }
 
     return (
 
         <form onSubmit={handleSubmit}>
             <h2>Inscription</h2>
-            <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <label for="email" className="text-sm font-semibold text-gray-700">Status :</label>
+            <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required id="email"/>
+            
+            <label for="password" className="text-sm font-semibold text-gray-700">Status :</label>
+            <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required id="password"/>
             <button>S'inscrire</button>
         </form>
     )

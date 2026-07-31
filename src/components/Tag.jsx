@@ -18,10 +18,8 @@ function Tag({ tag, tasks, onUpdate, onTaskUpdate }) {
     // Associer le tag à la tâche sélectionnée
     const associateTag = async () => {
         if (!selectedTaskId) {
-            console.log('Aucune tâche sélectionnée');
             return;
         }
-        console.log('associateTag', selectedTaskId);
         await axios.patch(
             'http://localhost:3000/api/task/' + selectedTaskId + '/tags/add/' + tag._id,
             {},

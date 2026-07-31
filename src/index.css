@@ -32,7 +32,6 @@ nav a {
 }
 
 form input,
-form button,
 form textarea {
   display: block;
   width: 100%;
@@ -40,10 +39,4 @@ form textarea {
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid lightgrey;
-}
-
-form button {
-  background: #007BFF;
-  color: white;
-  border: none;
 }

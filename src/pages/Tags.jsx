@@ -15,11 +15,9 @@ function Tags() {
 
     //Créer un tag
     const CreateTag = async () => {
-        console.log('tags.jsx-createTag 1');
         await axios.patch('http://localhost:3000/api/tags/tagCreate' + tag.id, {
             headers: { Authorization: 'Bearer ' + token }
         });
-        console.log('tags.jsx-createTag 2');
         onUpdate();
     }
 

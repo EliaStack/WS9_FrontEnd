@@ -20,36 +20,42 @@ function CreateTag() {
     const handleSubmit = async (e) => {
         e.preventDefault(); //Evite le rechargement de la page
         //Appel API
+
+        if (name.length <= 3) {
+            setError("Veuillez mettre au minimum trois caractères");
+            return;
+        }
+
+
         await post('api/tags/tagCreate', { name, project })
         navigate('/projects', {
             state: {
                 projectId: projectId
             }
         });
-        console.log('createtag : tag créer')
     }
 
     return (
         <div className="max-w-2xl mx-auto px-4 py-6 md:px-0">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h2 className="bg-blue-600 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">Créer un commentaire</h2>
+                <h2 className="bg-blue-700 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">Créer un commentaire</h2>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Titre :</label>
-                    <input placeholder="Titre" value={name} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" />
+                    <label for="titre" className="text-sm font-semibold text-gray-700">Titre :</label>
+                    <input placeholder="Titre" value={name} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="titre"/>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Projet concerné :</label>
-                    <input readOnly placeholder="Projet concerné" value={projectTitle} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" />
+                    <label for="project" className="text-sm font-semibold text-gray-700">Projet concerné :</label>
+                    <input readOnly placeholder="Projet concerné" value={projectTitle} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" id="project"/>
                 </div>
 
-                <button className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Créer</button>
+                <button className="bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Créer</button>
             </form>
             <div className="flex justify-center mt-4">
                 <Link
                     to="/projects"
-                    className="bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition shadow-sm w-full sm:w-auto text-center"
+                    className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition shadow-sm w-full sm:w-auto text-center"
                 >
                     ← Retour aux projets
                 </Link>

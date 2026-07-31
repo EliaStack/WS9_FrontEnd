@@ -50,17 +50,9 @@ function EditTask() {
             });
     }, [project._id])
 
-    // Pour afficher le prénom de chaque membre proprement dans la console :
-    if (project?.members) {
-        project.members.forEach((member, index) => {
-            console.log('test 3 -', member.firstName);
-        });
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault(); //Evite le rechargement de la page
         try {
-            console.log("Objet complet envoyé :", { title, description, startAt, endAt, status, owner, members });
             //Appel API
             await patch('api/projet/' + project._id, { title, description, startAt, endAt, status, owner: project.owner, members })
             navigate('/projects', {
@@ -77,43 +69,43 @@ function EditTask() {
     return (
         <div className="max-w-2xl mx-auto px-4 py-6 md:px-0">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h2 className="bg-blue-600 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">
+                <h2 className="bg-blue-700 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">
                     Modifier un projet
                 </h2>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Titre du projet :</label>
-                    <input placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" />
+                    <label for="title" className="text-sm font-semibold text-gray-700">Titre du projet :</label>
+                    <input placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="title"/>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Description du projet :</label>
-                    <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full min-h-[90px]"></textarea>
+                    <label for="description" className="text-sm font-semibold text-gray-700">Description du projet :</label>
+                    <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full min-h-[90px]" id="description"></textarea>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex flex-col gap-1 flex-1">
-                        <label className="text-sm font-semibold text-gray-700">Date de création :</label>
-                        <input type="date" value={startAt} onChange={(e) => setStartAt(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" />
+                        <label for="datestart" className="text-sm font-semibold text-gray-700">Date de création :</label>
+                        <input type="date" value={startAt} onChange={(e) => setStartAt(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="datestart"/>
                     </div>
                     <div className="flex flex-col gap-1 flex-1">
-                        <label className="text-sm font-semibold text-gray-700">Date d'échéance :</label>
-                        <input type="date" value={endAt} onChange={(e) => setEndAt(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" />
+                        <label for="dateend" className="text-sm font-semibold text-gray-700">Date d'échéance :</label>
+                        <input type="date" value={endAt} onChange={(e) => setEndAt(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="dateend"/>
                     </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex flex-col gap-1 flex-1">
-                        <label className="text-sm font-semibold text-gray-700">Status :</label>
+                        <label for="status" className="text-sm font-semibold text-gray-700">Status :</label>
                         <select
-                            value={status} onChange={(e) => setStatus(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full">
+                            value={status} onChange={(e) => setStatus(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="status">
                             <option value="actif">Actif</option>
                             <option value="archivé">Archivé</option>
                         </select>
                     </div>
                     <div className="flex flex-col gap-1 flex-1">
-                        <label className="text-sm font-semibold text-gray-700">Créateur :</label>
-                        <input readOnly placeholder="Créateur du projet" value={owner} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" />
+                        <label for="createur" className="text-sm font-semibold text-gray-700">Créateur :</label>
+                        <input readOnly placeholder="Créateur du projet" value={owner} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" id="createur"/>
                     </div>
                 </div>
 
@@ -124,9 +116,6 @@ function EditTask() {
                         const userObj = users.find(u => u._id === memberId);
                         if (!userObj) return null;
                         const lastName = (userObj.LastName || userObj.lastName || '').toUpperCase();
-
-                        {/* === TON CONSOLE.LOG ICI === */ }
-                        console.log('Membre affiché :', userObj.firstName, lastName);
 
                         return (
                             <div key={memberId} className="max-w-md bg-gray-50 border border-gray-200 text-gray-800 text-sm px-4 py-2.5 rounded-xl flex justify-between items-center shadow-sm">
@@ -225,12 +214,12 @@ function EditTask() {
                 <small className="text-gray-500 block mb-2">Tapez un nom, puis cliquez dessus ou appuyez sur Entrée pour l'ajouter.</small>
                 <br></br>
 
-                <button className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Modifier</button>
+                <button className="bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Modifier</button>
             </form>
             <div className="flex justify-center mt-4">
                 <Link
                     to="/projects"
-                    className="bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition shadow-sm w-full sm:w-auto text-center"
+                    className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition shadow-sm w-full sm:w-auto text-center"
                 >
                     ← Retour aux projets
                 </Link>

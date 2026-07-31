@@ -23,7 +23,6 @@ function Tasks() {
     const [tags, setTags] = useState([]);
     const [tagsPagination, setTagsPagination] = useState({ page: 1, totalPages: 1 });
 
-    console.log('id du projet : ', projectId);
     const fetchTasks = async (page = 1) => {
         try {
             // Vérification de sécurité : si on n'a pas de projectId, on arrête
@@ -33,7 +32,6 @@ function Tasks() {
             }
             // On utilise ici la variable projectId récupérée
             const result = await get(`/api/task/taskUser/${projectId}?page=${page}`);
-            console.log('fetchtasks : Récup data OK');
             setTasks(result.data.tasks);
             setPagination(result.data.pagination);
         } catch (error) {
@@ -43,18 +41,13 @@ function Tasks() {
 
     const fetchTags = async (page = 1) => {
         try {
-            console.log('tag1');
             // Vérification de sécurité : si on n'a pas de projectId, on arrête
             if (!projectId) {
                 console.error("Aucun projectId trouvé dans le state.");
                 return;
             }
-            console.log('tag2');
-            console.log('id du projet : ', projectId);
             // On récupére les commentaires relatif au projet
             const result = await get(`/api/tags/${projectId}?page=${page}`);
-            console.log('tag3');
-            console.log('fetchTags : Récup data OK');
             setTags(result.data.tags);
             setTagsPagination(result.data.pagination);
         } catch (error) {
@@ -69,8 +62,6 @@ function Tasks() {
             fetchTags();
         }
     }, [projectId]);
-
-    //  console.log('nom du projet', projectTitle);
 
     return (
         <div>
@@ -162,7 +153,7 @@ function Tasks() {
             <div className="flex justify-center mt-8">
                 <Link
                     to="/projects"
-                    className="bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition shadow-sm"
+                    className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition shadow-sm"
                 >
                     ← Retour aux projets
                 </Link>

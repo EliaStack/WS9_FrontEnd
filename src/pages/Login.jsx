@@ -15,27 +15,21 @@ function Login() {
 
     const handlesubmit = async (e) => {
         e.preventDefault(); //Evite le rechargement de la page
-        console.log({ email, password });
         //Appel API
         try {
             const result = await post('api/users/login', { email, password }) //Mettre url de l'api et les données à soumettres
             setToken(result.data.token); //Pour stocker une donnée
             //On récupère le token et le user connecté
             setToken(result.data.token);
-            localStorage.setItem('user',JSON.stringify(result.data.user));
-            console.log("user =", result.data.user);
-            console.log("token =", result.data.token);
+            localStorage.setItem('user', JSON.stringify(result.data.user));
 
             navigate('/projects');
-            console.log('redirection vers pages projet')
         } catch (err) {
-            console.log(err)
             if (err.status == 400)
                 setError(true);
         }
 
         //navigate('/login') //Redirection vers la page login
-        console.log({ email, password });
     }
 
     {/* Gestion des erreurs */ }
@@ -50,8 +44,13 @@ function Login() {
     return (
         <form onSubmit={handlesubmit}>
             <h2>Connexion</h2>
-            <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+            <label for="email" className="text-sm font-semibold text-gray-700">Status :</label>
+            <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} id="email"/>
+
+            <label for="password" className="text-sm font-semibold text-gray-700">Status :</label>
+            <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} id="password"/>
+
             <button>Se connecter</button>
 
             {/* Gestion des erreurs */}
