@@ -2,7 +2,7 @@
 import { MemoryRouter } from "react-router-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import EditTask from "../pages/EditTask";
+import EditProject from "../pages/EditProject";
 
 const mockPatch = vi.fn();
 const mockGet = vi.fn((url) => {
@@ -46,14 +46,14 @@ const fakeProject = {
     members: [],
 };
 
-describe("EditTask (édition de projet)", () => {
+describe("EditProject (édition de projet)", () => {
     it('Soumet le formulaire avec les bonnes valeurs', async () => {
         render(
             <MemoryRouter initialEntries={[{
                 pathname: '/projects/edit',
                 state: { project: fakeProject, projectId: 'proj123' }
             }]}>
-                <EditTask />
+                <EditProject></EditProject>
             </MemoryRouter>
         );
 

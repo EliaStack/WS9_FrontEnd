@@ -7,8 +7,11 @@ import EditTag from "../pages/EditTag";
 const mockPatch = vi.fn();
 const mockGet = vi.fn().mockResolvedValue({
     data: {
-        title: "Ancienne tâche",
-        project: "proj123",
+        name: "Ancien Tag",
+        project: {
+            _id: "proj123",
+            title: "Titre du projet",
+        },
     }
 });
 vi.mock('../services/api.js', () => ({
@@ -22,7 +25,7 @@ vi.mock('react-router-dom', async () => {
     return {
         ...actual,
         useNavigate: () => mockNavigate,
-        useParams: () => ({ id: 'task123' }),
+        useParams: () => ({ id: 'tagtest' }),
     }
 })
 
@@ -30,29 +33,46 @@ vi.mock('../context/AuthContext', () => ({
     useAuth: () => ({ token: 'fake-token' })
 }))
 
+const fakeTag = {
+    name: "Ancien Tag",
+    project: {
+        _id: "proj123",
+        title: "Titre du projet",
+    },
+};
+
 describe("EditTag", () => {
     it('Soumet le formulaire avec les bonnes valeurs', async () => {
-        render(<EditTag></EditTag>, { wrapper: MemoryRouter });
+        render(
+            <MemoryRouter initialEntries={[{
+                pathname: '/tags/edit',
+                state: { tag: fakeTag }
+            }]}>
+                <EditTag />
+            </MemoryRouter>
+        );
 
         // Attendre que les données initiales soient chargées avant d'interagir
-        await screen.findByDisplayValue("Ancienne tâche");
+        await screen.findByDisplayValue("Ancien Tag");
 
         fireEvent.change(screen.getByPlaceholderText("Titre"), {
-            target: { value: "Tâche modifiée" },
+            target: { value: "Tag modifiée" },
         });
-
 
         fireEvent.click(screen.getByText("Modifier"));
 
         await waitFor(() => {
-            expect(mockPatch).toHaveBeenCalledWith('api/task/task123', {
-                title: "Tâche modifiée",
-               
+            expect(mockPatch).toHaveBeenCalledWith('api/tags/tagtest', {
+                name: "Tag modifiée",
+                project: {
+                    _id: "proj123",
+                    title: "Titre du projet",
+                },
             });
         });
 
         await waitFor(() => {
-            expect(mockNavigate).toHaveBeenCalledWith('/editTag/', {
+            expect(mockNavigate).toHaveBeenCalledWith('/tasks', {
                 state: { projectId: "proj123" },
             });
         });

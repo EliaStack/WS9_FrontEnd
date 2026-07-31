@@ -29,7 +29,7 @@ vi.mock('react-router-dom', async () => {
 })
 
 vi.mock('../context/AuthContext', () => ({
-    useAuth: () => ({ token: 'fake-token' })
+    useAuth: () => ({ token: 'fake-token', setToken: vi.fn() })
 }))
 
 describe("Login", () => {
@@ -48,13 +48,13 @@ describe("Login", () => {
 
         await waitFor(() => {
             expect(mockPost).toHaveBeenCalledWith('api/users/login', {
-                email:"test@123.fr",
-                password:"123",
+                email: "test@123.fr",
+                password: "123",
             });
         });
 
         await waitFor(() => {
-            expect(mockNavigate).toHaveBeenCalledWith('/projects');
+            expect(mockNavigate).toHaveBeenCalledWith('/projects')
         });
     });
 });
