@@ -41,13 +41,13 @@ function CreateTag() {
                 <h2 className="bg-blue-700 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">Créer un commentaire</h2>
 
                 <div className="flex flex-col gap-1">
-                    <label for="titre" className="text-sm font-semibold text-gray-700">Titre :</label>
-                    <input placeholder="Titre" value={name} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="titre"/>
+                    <label for="titre" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Titre :</label>
+                    <input placeholder="Titre" value={name} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="titre"/>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <label for="project" className="text-sm font-semibold text-gray-700">Projet concerné :</label>
-                    <input readOnly placeholder="Projet concerné" value={projectTitle} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" id="project"/>
+                    <label for="project" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Projet concerné :</label>
+                    <input readOnly placeholder="Projet concerné" value={projectTitle} className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full bg-gray-100 dark:bg-gray-600 dark:text-gray-300" id="project"/>
                 </div>
 
                 <button className="bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Créer</button>

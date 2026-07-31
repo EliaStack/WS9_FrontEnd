@@ -10,7 +10,7 @@ function Login() {
     const { setToken } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(false); //Gestion des erreurs
+    const [error, setError] = useState(''); //Gestion des erreurs
     const navigate = useNavigate(); //Utiliser pour la redirection de page
 
     const handlesubmit = async (e) => {
@@ -25,37 +25,31 @@ function Login() {
 
             navigate('/projects');
         } catch (err) {
-            if (err.status == 400)
-                setError(true);
+            if (err.response?.status === 401) {
+                setError('Email ou mot de passe incorrect.');
+            } else {
+                setError('Une erreur est survenue, veuillez réessayer.');
+            }
         }
 
         //navigate('/login') //Redirection vers la page login
     }
-
-    {/* Gestion des erreurs */ }
-    let errorMsg = '';
-    if (error)
-        errorMsg = (<p className="error-form">Identifiants invalides</p>);
-    else
-        errorMsg = '';
-
 
     // Partie HTML React
     return (
         <form onSubmit={handlesubmit}>
             <h2>Connexion</h2>
 
-            <label for="email" className="text-sm font-semibold text-gray-700">Status :</label>
+            <label for="email" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Status :</label>
             <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} id="email"/>
 
-            <label for="password" className="text-sm font-semibold text-gray-700">Status :</label>
+            <label for="password" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Status :</label>
             <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} id="password"/>
 
             <button>Se connecter</button>
 
             {/* Gestion des erreurs */}
-            {errorMsg}
-            {error && <p className="error-form">Identifiants invalides</p>}
+            {error && <p className="error-form">{error}</p>}
         </form>
     )
 };

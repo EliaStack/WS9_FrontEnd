@@ -68,7 +68,7 @@ function Tasks() {
             <div className="flex flex-col lg:flex-row gap-8">
                 {/*TASKS*/}
                 <div className="flex-1 min-w-0">
-                    <div className="pb-6 lg:pb-0 lg:pr-6 border-b lg:border-b-0 lg:border-r border-gray-300">
+                    <div className="pb-6 lg:pb-0 lg:pr-6 border-b lg:border-b-0 lg:border-r border-gray-300 dark:border-gray-700">
                         <h2>Mes Tâches :</h2>
                         <Link className="inline-block mb-4 text-blue-600 underline" to="/createTask" state={{
                             projectId: projectId,

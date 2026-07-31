@@ -31,11 +31,11 @@ function Tag({ tag, tasks, onUpdate, onTaskUpdate }) {
     };
 
     return (
-        <div className="bg-white p-5 rounded-xl border border-gray-400 border-l-[6px] border-l-blue-600 shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 mb-6 flex flex-col md:flex-row gap-4 md:items-center relative">
+        <div className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-400 dark:border-gray-600 border-l-[6px] border-l-blue-600 shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 mb-6 flex flex-col md:flex-row gap-4 md:items-center relative">
 
             {/* Colonne gauche */}
             <div className="flex-1 min-w-0">
-                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 text-sm italic text-gray-700">
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-100 dark:border-gray-600 text-sm italic text-gray-700 dark:text-gray-300">
                     <p className="mb-1">• {tag.name}</p>
                     {Array.isArray(tag.comments) && tag.comments.map((c, i) => (
                         <p key={`com-${i}`} className="mb-1">• {c}</p>
@@ -51,7 +51,7 @@ function Tag({ tag, tasks, onUpdate, onTaskUpdate }) {
 
                     {/* Sélecteur de tâche + bouton Associer */}
                     <select
-                        className="col-span-2 md:col-auto border border-gray-300 rounded-lg px-2 py-2 text-xs w-full"
+                        className="col-span-2 md:col-auto border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-2 py-2 text-xs w-full"
                         value={selectedTaskId}
                         onChange={(e) => setSelectedTaskId(e.target.value)}
                     >

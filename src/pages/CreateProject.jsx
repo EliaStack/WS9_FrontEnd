@@ -64,34 +64,34 @@ function CreateProject() {
                 </h2>
 
                 <div className="flex flex-col gap-1">
-                    <label  for="titre" className="text-sm font-semibold text-gray-700">Titre du projet :</label>
-                    <input placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="titre"/>
+                    <label  for="titre" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Titre du projet :</label>
+                    <input placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="titre"/>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <label for="description" className="text-sm font-semibold text-gray-700">Description du projet :</label>
-                    <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full min-h-[90px]" id="description"></textarea>
+                    <label for="description" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Description du projet :</label>
+                    <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full min-h-[90px]" id="description"></textarea>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex flex-col gap-1 flex-1">
-                        <label for="datestart" className="text-sm font-semibold text-gray-700">Date de création :</label>
-                        <input type="date" value={startAt} onChange={(e) => setStartAt(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="datestart"/>
+                        <label for="datestart" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Date de création :</label>
+                        <input type="date" value={startAt} onChange={(e) => setStartAt(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="datestart"/>
                     </div>
                     <div className="flex flex-col gap-1 flex-1">
-                        <label for="dateend" className="text-sm font-semibold text-gray-700">Date d'échéance :</label>
-                        <input type="date" value={endAt} onChange={(e) => setEndAt(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="dateend"/>
+                        <label for="dateend" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Date d'échéance :</label>
+                        <input type="date" value={endAt} onChange={(e) => setEndAt(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="dateend"/>
                     </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex flex-col gap-1 flex-1">
-                        <label for="status" className="text-sm font-semibold text-gray-700">Status :</label>
-                        <input readOnly placeholder="Status" value={status} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" id="status"/>
+                        <label for="status" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Status :</label>
+                        <input readOnly placeholder="Status" value={status} className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full bg-gray-100 dark:bg-gray-600 dark:text-gray-300" id="status"/>
                     </div>
                     <div className="flex flex-col gap-1 flex-1">
-                        <label for="createur" className="text-sm font-semibold text-gray-700">Créateur :</label>
-                        <input readOnly placeholder="Créateur du projet" value={assigneeName} className="border border-gray-300 rounded px-3 py-2 w-full bg-gray-100" id="createur"/>
+                        <label for="createur" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Créateur :</label>
+                        <input readOnly placeholder="Créateur du projet" value={assigneeName} className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full bg-gray-100 dark:bg-gray-600 dark:text-gray-300" id="createur"/>
                     </div>
                 </div>
 
@@ -103,13 +103,13 @@ function CreateProject() {
                         if (!userObj) return null;
                         const lastName = (userObj.LastName || userObj.lastName || '').toUpperCase();
                         return (
-                            <div key={memberId} className="max-w-md bg-gray-50 border border-gray-200 text-gray-800 text-sm px-4 py-2.5 rounded-xl flex justify-between items-center shadow-sm">
+            <div key={memberId} className="max-w-md bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200 text-sm px-4 py-2.5 rounded-xl flex justify-between items-center shadow-sm">
                                 {/* Nom, prénom et email à gauche */}
                                 <div className="flex flex-col">
                                     <span className="font-semibold">
                                         {lastName} {userObj.firstName}
                                     </span>
-                                    <span className="text-gray-400 text-xs">
+                                    <span className="text-gray-400 dark:text-gray-400 text-xs">
                                         {userObj.email}
                                     </span>
                                 </div>
@@ -152,13 +152,13 @@ function CreateProject() {
                                 }
                             }
                         }}
-                        className="w-full border border-gray-300 rounded px-3 py-2"
+                        className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2"
                         id="members"
                     />
 
                     {/* Liste déroulante des suggestions filtrées */}
                     {searchTerm.trim() !== '' && (
-                        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded mt-1 max-h-60 overflow-y-auto shadow-lg">
+                        <ul className="absolute z-10 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded mt-1 max-h-60 overflow-y-auto shadow-lg">
                             {users
                                 .filter(user => {
                                     const search = searchTerm.toLowerCase();
@@ -173,11 +173,11 @@ function CreateProject() {
                                             setMembers([...members, user._id]);
                                             setSearchTerm('');
                                         }}
-                                        className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm flex justify-between items-center border-b last:border-b-0"
+                                        className="px-3 py-2 hover:bg-blue-50 dark:hover:bg-gray-600 cursor-pointer text-sm flex justify-between items-center border-b dark:border-gray-600 last:border-b-0"
                                     >
                                         <div className="flex flex-col">
-                                            <span className="font-medium">{user.firstName} {user.LastName || user.lastName}</span>
-                                            <span className="text-gray-500 text-xs">{user.email}</span>
+                                            <span className="font-medium dark:text-gray-100">{user.firstName} {user.LastName || user.lastName}</span>
+                                            <span className="text-gray-500 dark:text-gray-400 text-xs">{user.email}</span>
                                         </div>
                                         <span className="text-blue-500 text-xs font-bold">+ Ajouter</span>
                                     </li>
@@ -190,14 +190,14 @@ function CreateProject() {
                                 const lastName = (user.LastName || user.lastName)?.toLowerCase() || '';
                                 return (firstName.includes(search) || lastName.includes(search)) && !members.includes(user._id);
                             }).length === 0 && (
-                                    <li className="px-3 py-3 text-gray-500 text-sm italic text-center bg-gray-50">
+                                    <li className="px-3 py-3 text-gray-500 dark:text-gray-400 text-sm italic text-center bg-gray-50 dark:bg-gray-700">
                                         Aucun utilisateur trouvé pour "{searchTerm}"
                                     </li>
                                 )}
                         </ul>
                     )}
                 </div>
-                <small className="text-gray-500 block mb-2">Tapez un nom, puis cliquez dessus ou appuyez sur Entrée pour l'ajouter.</small>
+                <small className="text-gray-500 dark:text-gray-400 block mb-2">Tapez un nom, puis cliquez dessus ou appuyez sur Entrée pour l'ajouter.</small>
                 <br></br>
 
                 <button className="bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-lg font-semibold transition shadow-sm w-full">Créer</button>

@@ -46,16 +46,16 @@ function EditUser() {
                 <h2 className="bg-blue-700 text-white text-xl font-semibold px-4 py-2 rounded mb-2 text-center">Modifier l'utilisateur : {firstName} {lastName} </h2>
 
                 <div className="flex flex-col gap-1">
-                    <label for="firstname" className="text-sm font-semibold text-gray-700">Nom :</label>
-                    <input placeholder="FirstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="firstname"/>
+                    <label for="firstname" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Nom :</label>
+                    <input placeholder="FirstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="firstname"/>
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label for="lastname" className="text-sm font-semibold text-gray-700">Prénom :</label>
-                    <input placeholder="LastName" value={lastName} onChange={(e) => setLastName(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="lastname"/>
+                    <label for="lastname" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Prénom :</label>
+                    <input placeholder="LastName" value={lastName} onChange={(e) => setLastName(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="lastname"/>
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label for="password" className="text-sm font-semibold text-gray-700">Mot de passe :</label>
-                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="border border-gray-300 rounded px-3 py-2 w-full" id="password"/>
+                    <label for="password" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Mot de passe :</label>
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 w-full" id="password"/>
                 </div>
 
 

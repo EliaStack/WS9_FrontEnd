@@ -23,10 +23,10 @@ function Register() {
 
         <form onSubmit={handleSubmit}>
             <h2>Inscription</h2>
-            <label for="email" className="text-sm font-semibold text-gray-700">Status :</label>
+            <label for="email" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Status :</label>
             <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required id="email"/>
             
-            <label for="password" className="text-sm font-semibold text-gray-700">Status :</label>
+            <label for="password" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Status :</label>
             <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required id="password"/>
             <button>S'inscrire</button>
         </form>
