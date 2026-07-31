@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({ //Créer une instance d'axios avec une certaine config
-    //baseURL: import.meta.env.VITE_API_URL, //Tout nos appel API vont commencer par
- baseURL: 'http://localhost:3000/',
+    baseURL: import.meta.env.VITE_API_URL, //Tout nos appel API vont commencer par
 });
 
 //Intrcepteur: chaque requête interceptée(GET/PUT/PATCH,ect...) récupère la config. de l'appel

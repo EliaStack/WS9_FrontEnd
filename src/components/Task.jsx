@@ -1,23 +1,17 @@
-import axios from "axios";
+import { del, patch } from "../services/api";
 import { Link } from "react-router-dom";
 
 
 function Task({ task, onUpdate }) {
-    const token = localStorage.getItem('token');
     //Supprimer une tâche
     const deleteTask = async () => {
-        await axios.delete('http://localhost:3000/api/task/' + task._id, {
-            headers: { Authorization: 'Bearer ' + token }
-        });
+        await del('api/task/' + task._id);
         onUpdate();
     };
 
     //Marquer une tâche comme fini
     const markAsFinished = async () => {
-
-        await axios.patch('http://localhost:3000/api/task/' + task._id, { status: 'done' }, {
-            headers: { Authorization: 'Bearer ' + token }
-        });
+        await patch('api/task/' + task._id, { status: 'done' });
         onUpdate();
     }
 

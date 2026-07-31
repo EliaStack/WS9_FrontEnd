@@ -1,21 +1,16 @@
-import axios from "axios";
+import { del, patch } from "../services/api";
 import { Link } from "react-router-dom";
 
 
 function Project({ project, onUpdate }) {
-    const token = localStorage.getItem('token');
 
     const deleteProject = async () => {
-        await axios.delete('http://localhost:3000/api/projet/' + project._id, {
-            headers: { Authorization: 'Bearer ' + token }
-        });
+        await del('api/projet/' + project._id);
         onUpdate();
     };
 
     const markAsFinished = async () => {
-        await axios.patch('http://localhost:3000/api/projet/' + project._id, { status: 'archivé' }, {
-            headers: { Authorization: 'Bearer ' + token }
-        });
+        await patch('api/projet/' + project._id, { status: 'archivé' });
         onUpdate();
     }
 
