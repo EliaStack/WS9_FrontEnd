@@ -94,13 +94,23 @@ Centralisés dans `src/services/api.js` : une instance `axios` unique (`baseURL`
 
 ## Variables d'environnement
 
-Fichier `.env` (racine du dossier `taskflow_web`) :
+Vite charge automatiquement le bon fichier selon la commande, aucun code à écrire :
 
-```env
-VITE_API_URL=http://localhost:3000/
+- `npm run dev` → charge `.env.development`
+- `npm run build` → charge `.env.production`
+
+Ni l'un ni l'autre n'est suivi par Git. Copier le modèle fourni pour démarrer :
+
+```bash
+cp .env.example .env.development
+cp .env.example .env.production
 ```
 
-> Vite n'expose que les variables préfixées par `VITE_`. Elles sont lues via `import.meta.env.VITE_API_URL`.
+| Variable | Portée | Description |
+|---|---|---|
+| `VITE_API_URL` | Publique | Adresse de base de l'API backend |
+
+> Vite n'expose que les variables préfixées par `VITE_` — elles finissent dans le bundle JS envoyé au navigateur, donc **aucun secret ne doit jamais commencer par `VITE_`**. Elles sont lues via `import.meta.env.VITE_API_URL`.
 
 ## Installation et lancement
 

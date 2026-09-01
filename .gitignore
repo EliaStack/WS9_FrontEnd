@@ -26,4 +26,5 @@ dist-ssr
 # Folders/files
 ../Autres/
 ../backend/
-.env
+.env.development
+.env.production
