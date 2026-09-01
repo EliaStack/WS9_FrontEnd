@@ -1,80 +1,82 @@
 /** @vitest-environment jsdom */
-import { MemoryRouter } from "react-router-dom";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import Login from "../pages/Login";
+import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import Login from '../pages/Login';
 
 const mockPost = vi.fn();
 vi.mock('../services/api.js', () => ({
-    post: (...args) => mockPost(...args)
-}))
+  post: (...args) => mockPost(...args),
+}));
 
 mockPost.mockResolvedValue({
-    data: {
-        token: 'fake-token',
-        user: {
-            _id: '123',
-            email: 'test@123.fr'
-        }
-    }
+  data: {
+    token: 'fake-token',
+    user: {
+      _id: '123',
+      email: 'test@123.fr',
+    },
+  },
 });
 
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    }
-})
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
 
-vi.mock('../context/AuthContext', () => ({
-    useAuth: () => ({ token: 'fake-token', setToken: vi.fn() })
-}))
+vi.mock('../context/useAuth', () => ({
+  useAuth: () => ({ token: 'fake-token', setToken: vi.fn() }),
+}));
 
-describe("Login", () => {
-    it('Soumet le formulaire avec les bonnes valeurs', async () => {
-        render(<Login></Login>, { wrapper: MemoryRouter });
+describe('Login', () => {
+  it('Soumet le formulaire avec les bonnes valeurs', async () => {
+    render(<Login></Login>, { wrapper: MemoryRouter });
 
-        fireEvent.change(screen.getByPlaceholderText("Email"), {
-            target: { value: "test@123.fr" },
-        });
-
-        fireEvent.change(screen.getByPlaceholderText("Mot de passe"), {
-            target: { value: "123" },
-        });
-
-        fireEvent.click(screen.getByText("Se connecter"));
-
-        await waitFor(() => {
-            expect(mockPost).toHaveBeenCalledWith('api/users/login', {
-                email: "test@123.fr",
-                password: "123",
-            });
-        });
-
-        await waitFor(() => {
-            expect(mockNavigate).toHaveBeenCalledWith('/projects')
-        });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'test@123.fr' },
     });
 
-    it("Affiche une erreur si les identifiants sont incorrects", async () => {
-        mockPost.mockRejectedValueOnce({ response: { status: 401 } });
-
-        render(<Login></Login>, { wrapper: MemoryRouter });
-
-        fireEvent.change(screen.getByPlaceholderText("Email"), {
-            target: { value: "mauvais@123.fr" },
-        });
-
-        fireEvent.change(screen.getByPlaceholderText("Mot de passe"), {
-            target: { value: "faux-mdp" },
-        });
-
-        fireEvent.click(screen.getByText("Se connecter"));
-
-        await waitFor(() => {
-            expect(screen.getByText("Email ou mot de passe incorrect.")).toBeInTheDocument();
-        });
+    fireEvent.change(screen.getByPlaceholderText('Mot de passe'), {
+      target: { value: '123' },
     });
+
+    fireEvent.click(screen.getByText('Se connecter'));
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('api/users/login', {
+        email: 'test@123.fr',
+        password: '123',
+      });
+    });
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/projects');
+    });
+  });
+
+  it('Affiche une erreur si les identifiants sont incorrects', async () => {
+    mockPost.mockRejectedValueOnce({ response: { status: 401 } });
+
+    render(<Login></Login>, { wrapper: MemoryRouter });
+
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'mauvais@123.fr' },
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Mot de passe'), {
+      target: { value: 'faux-mdp' },
+    });
+
+    fireEvent.click(screen.getByText('Se connecter'));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Email ou mot de passe incorrect.'),
+      ).toBeInTheDocument();
+    });
+  });
 });

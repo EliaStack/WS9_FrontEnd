@@ -1,40 +1,28 @@
-import { Children, createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { AuthContext } from './authContextValue';
 
-const AuthContext = createContext();
+export const AuthProvider = ({ children }) => {
+  const [token, setToken] = useState(null);
 
-export const AuthProvider =({ children}) => {
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if(storedToken) {
-            setToken(storedToken);
-        }
-    }, [])
-
-    const updateToken = (newToken) => {
-        setToken(newToken);
-        if(newToken) {
-            localStorage.setItem('token', newToken);
-        } else {
-            localStorage.removeItem('token'); 
-        }
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
     }
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{token, setToken: updateToken}}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  const updateToken = (newToken) => {
+    setToken(newToken);
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+    } else {
+      localStorage.removeItem('token');
+    }
+  };
 
-export const useAuth = () => useContext(AuthContext);
-
-
-
-
-
-
-
-
-
+  return (
+    <AuthContext.Provider value={{ token, setToken: updateToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

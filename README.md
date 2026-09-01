@@ -27,7 +27,9 @@ src/
 ├── App.jsx                 # Déclaration du routeur et des routes de l'application
 ├── PrivateRoute.jsx         # Garde de route : redirige vers /login si non authentifié
 ├── context/
-│   └── AuthContext.jsx      # Contexte React pour l'état d'authentification (token)
+│   ├── authContextValue.js  # createContext() seul (exigé par le lint Fast Refresh)
+│   ├── AuthContext.jsx      # Composant AuthProvider (état d'authentification, token)
+│   └── useAuth.js           # Hook useAuth()
 ├── services/
 │   └── api.js                # Instance Axios centralisée + intercepteurs
 ├── components/               # Composants réutilisables (Header, Footer, cartes Project/Task/Tag, profil)
@@ -36,6 +38,7 @@ src/
 ```
 
 Le projet suit une séparation classique **pages / composants / services** :
+
 - **`pages/`** : un composant par route, orchestre l'appel API et l'affichage (ex. `CreateTask.jsx`, `EditProject.jsx`).
 - **`components/`** : éléments d'UI réutilisables entre plusieurs pages (ex. `Header`, `Footer`, `Task`, `Project`, `Tag`).
 - **`services/api.js`** : point unique de communication avec le backend.
@@ -43,14 +46,14 @@ Le projet suit une séparation classique **pages / composants / services** :
 
 ## Choix techniques
 
-| Besoin | Choix | Raison |
-|---|---|---|
-| Bundler / dev server | **Vite** | Démarrage et rechargement (HMR) très rapides par rapport à Create React App |
-| UI | **React 19** | Version courante, hooks, composants fonctionnels |
-| Routage | **react-router-dom v7** | Standard pour le routage côté client en SPA, gestion des routes protégées |
-| Appels HTTP | **axios** | Intercepteurs simples pour injecter le token JWT et gérer les erreurs 401 globalement |
-| Tests | **Vitest + @testing-library/react + jsdom** | Intégré nativement à Vite (même config/transform que l'app), API compatible Jest |
-| État global | **Context API (React)** | Un seul état global nécessaire (le token d'authentification) : pas besoin d'une librairie externe (Redux/Zustand) |
+| Besoin               | Choix                                       | Raison                                                                                                            |
+| -------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Bundler / dev server | **Vite**                                    | Démarrage et rechargement (HMR) très rapides par rapport à Create React App                                       |
+| UI                   | **React 19**                                | Version courante, hooks, composants fonctionnels                                                                  |
+| Routage              | **react-router-dom v7**                     | Standard pour le routage côté client en SPA, gestion des routes protégées                                         |
+| Appels HTTP          | **axios**                                   | Intercepteurs simples pour injecter le token JWT et gérer les erreurs 401 globalement                             |
+| Tests                | **Vitest + @testing-library/react + jsdom** | Intégré nativement à Vite (même config/transform que l'app), API compatible Jest                                  |
+| État global          | **Context API (React)**                     | Un seul état global nécessaire (le token d'authentification) : pas besoin d'une librairie externe (Redux/Zustand) |
 
 ## Authentification
 
@@ -65,21 +68,21 @@ L'authentification repose sur un **token JWT** délivré par l'API backend au lo
 
 Toutes les routes sont déclarées dans `App.jsx` avec `react-router-dom`.
 
-| Route | Page | Accès |
-|---|---|---|
-| `/` | Home | Public |
-| `/login` | Login | Public |
-| `/register` | Register | Public |
-| `/projects` | Projects | Privé |
-| `/createProject` | CreateProject | Privé |
-| `/editProject/:id` | EditProject | Privé |
-| `/tasks` | Tasks | Privé |
-| `/createTask` | CreateTask | Privé |
-| `/editTask/:id` | EditTask | Privé |
-| `/tags` | Tags | Privé |
-| `/createTag` | CreateTag | Privé |
-| `/editTag/:id` | EditTag | Privé |
-| `/editUser/:id` | EditUser | Privé |
+| Route              | Page          | Accès  |
+| ------------------ | ------------- | ------ |
+| `/`                | Home          | Public |
+| `/login`           | Login         | Public |
+| `/register`        | Register      | Public |
+| `/projects`        | Projects      | Privé  |
+| `/createProject`   | CreateProject | Privé  |
+| `/editProject/:id` | EditProject   | Privé  |
+| `/tasks`           | Tasks         | Privé  |
+| `/createTask`      | CreateTask    | Privé  |
+| `/editTask/:id`    | EditTask      | Privé  |
+| `/tags`            | Tags          | Privé  |
+| `/createTag`       | CreateTag     | Privé  |
+| `/editTag/:id`     | EditTag       | Privé  |
+| `/editUser/:id`    | EditUser      | Privé  |
 
 Les routes "Privé" sont enveloppées dans `<PrivateRoute>`, qui bloque l'accès sans token valide.
 
@@ -106,8 +109,8 @@ cp .env.example .env.development
 cp .env.example .env.production
 ```
 
-| Variable | Portée | Description |
-|---|---|---|
+| Variable       | Portée   | Description                      |
+| -------------- | -------- | -------------------------------- |
 | `VITE_API_URL` | Publique | Adresse de base de l'API backend |
 
 > Vite n'expose que les variables préfixées par `VITE_` — elles finissent dans le bundle JS envoyé au navigateur, donc **aucun secret ne doit jamais commencer par `VITE_`**. Elles sont lues via `import.meta.env.VITE_API_URL`.
@@ -133,9 +136,18 @@ npm run test
 ```
 
 Les tests (Vitest + Testing Library) couvrent :
+
 - les formulaires de création (`CreateProject`, `CreateTag`, `CreateTask`)
 - les formulaires d'édition (`EditProject`, `EditTag`, `EditTask`)
-- le formulaire de connexion (`login`)
+- le formulaire de connexion, y compris l'affichage d'une erreur API (`login`)
+- la route protégée `PrivateRoute` (redirection si non authentifié)
+
+## Qualité de code
+
+```bash
+npm run lint     # Analyse statique avec ESLint
+npm run format   # Reformate le code avec Prettier
+```
 
 ## Build de production
 
