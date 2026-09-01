@@ -57,4 +57,24 @@ describe("Login", () => {
             expect(mockNavigate).toHaveBeenCalledWith('/projects')
         });
     });
+
+    it("Affiche une erreur si les identifiants sont incorrects", async () => {
+        mockPost.mockRejectedValueOnce({ response: { status: 401 } });
+
+        render(<Login></Login>, { wrapper: MemoryRouter });
+
+        fireEvent.change(screen.getByPlaceholderText("Email"), {
+            target: { value: "mauvais@123.fr" },
+        });
+
+        fireEvent.change(screen.getByPlaceholderText("Mot de passe"), {
+            target: { value: "faux-mdp" },
+        });
+
+        fireEvent.click(screen.getByText("Se connecter"));
+
+        await waitFor(() => {
+            expect(screen.getByText("Email ou mot de passe incorrect.")).toBeInTheDocument();
+        });
+    });
 });
