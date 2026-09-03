@@ -25,6 +25,11 @@ function Tasks() {
     totalPages: 1,
   });
 
+  const [statusFilter, setStatusFilter] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  const [order, setOrder] = useState('asc');
+
   const fetchTasks = async (page = 1) => {
     try {
       // Vérification de sécurité : si on n'a pas de projectId, on arrête
@@ -32,8 +37,17 @@ function Tasks() {
         console.error('Aucun projectId trouvé dans le state.');
         return;
       }
+      const params = new URLSearchParams({ page });
+      if (statusFilter) params.set('status', statusFilter);
+      if (priorityFilter) params.set('priority', priorityFilter);
+      if (sortBy) {
+        params.set('sortBy', sortBy);
+        params.set('order', order);
+      }
       // On utilise ici la variable projectId récupérée
-      const result = await get(`/api/task/taskUser/${projectId}?page=${page}`);
+      const result = await get(
+        `/api/task/taskUser/${projectId}?${params.toString()}`,
+      );
       setTasks(result.data.tasks);
       setPagination(result.data.pagination);
     } catch (error) {
@@ -64,6 +78,12 @@ function Tasks() {
     }
   }, [projectId]);
 
+  useEffect(() => {
+    if (projectId) {
+      fetchTasks(1);
+    }
+  }, [statusFilter, priorityFilter, sortBy, order]);
+
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-8">
@@ -83,6 +103,52 @@ function Tasks() {
             >
               + Nouvelle tâche
             </Link>
+
+            {/*FILTRES ET TRI*/}
+            <div className="flex flex-wrap gap-2 mb-4">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-2 py-1 text-sm"
+              >
+                <option value="">Tous les statuts</option>
+                <option value="open">Open</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+
+              <select
+                value={priorityFilter}
+                onChange={(e) => setPriorityFilter(e.target.value)}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-2 py-1 text-sm"
+              >
+                <option value="">Toutes les priorités</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-2 py-1 text-sm"
+              >
+                <option value="">Sans tri</option>
+                <option value="dueAt">Trier par échéance</option>
+                <option value="priority">Trier par priorité</option>
+              </select>
+
+              <select
+                value={order}
+                onChange={(e) => setOrder(e.target.value)}
+                disabled={!sortBy}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-2 py-1 text-sm disabled:opacity-50"
+              >
+                <option value="asc">Croissant</option>
+                <option value="desc">Décroissant</option>
+              </select>
+            </div>
+
             {tasks.map((task) => (
               <Task
                 key={task.id}
